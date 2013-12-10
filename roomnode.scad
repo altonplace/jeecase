@@ -7,40 +7,90 @@ jeeNodeH = 1.6;
 
 //Connectors/Components
 
+//Headers
 CpW = 2.5;
 CpL = 15.6;
 CpH = 9;
 
-Cp4X = 0;			
-Cp4Y = 18.6;
+Cp4X = jeeNodeL-jeeNodeL;			
+Cp4Y = jeeNodeL-62.4;
 Cp4Z = jeeNodeH;
 
-Cp3X = 0;			
-Cp3Y = 46.8;
+Cp3X = jeeNodeL-jeeNodeL;			
+Cp3Y = jeeNodeL-34.2;
 Cp3Z = jeeNodeH;
 
 Cp2X = jeeNodeW-CpW;		
-Cp2Y = 46.8;
+Cp2Y = jeeNodeL-34.2;
 Cp2Z = jeeNodeH;
 
 Cp1X = jeeNodeW-CpW;			
-Cp1Y = 18.6;
+Cp1Y = jeeNodeL-62.4;
 Cp1Z = jeeNodeH;
+
+//Atmega
+Cat328W = 10;
+Cat328L = 35.5;
+Cat328H = 8.7;
+Cat328X = (jeeNodeW - Cat328W) /2;
+Cat328Y = jeeNodeL-58;
+Cat328Z = jeeNodeH;
+
+//Power Components
+CpwrW = jeeNodeW;
+CpwrL = 9;
+CpwrH = 7.5;
+CpwrX = jeeNodeL-jeeNodeL;
+CpwrY = jeeNodeL-14.2;
+CpwrZ = jeeNodeH;
+
+//FTDI Connector
+CftdiW = 15;
+CftdiL = 10.3;
+CftdiH = 2.5;
+CftdiX = (jeeNodeW - CftdiW) /2;
+CftdiY = jeeNodeL - 2.3;
+CftdiZ = jeeNodeH;
+
+//Radio
+Crf12W = 16;
+Crf12L = Crf12W;
+Crf12H = 2;
+Crf12X = (jeeNodeW - Crf12W) /2;
+Crf12Y = jeeNodeL-jeeNodeL;
+Crf12Z = jeeNodeH;
+
+
 
 //
 module jeeNode(){
 
 	union(){
 	//board
-	cube ([jeeNodeW, jeeNodeL, jeeNodeH]);
+	makeCube (0,0,0,jeeNodeW, jeeNodeL, jeeNodeH,"green");
 	//headers
-	translate([Cp4X, Cp4Y, Cp4Z]) cube ([CpW, CpL, CpH]);
-	translate([Cp3X, Cp3Y, Cp3Z]) cube ([CpW, CpL, CpH]);
-	translate([Cp2X, Cp2Y, Cp2Z]) cube ([CpW, CpL, CpH]);
-	translate([Cp1X, Cp1Y, Cp1Z]) cube ([CpW, CpL, CpH]);
-	};
+	makeCube (Cp4X, Cp4Y, Cp4Z, CpW, CpL, CpH, "black");
+	makeCube (Cp3X, Cp3Y, Cp3Z, CpW, CpL, CpH, "black");
+	makeCube (Cp2X, Cp2Y, Cp2Z, CpW, CpL, CpH, "black");
+	makeCube (Cp1X, Cp1Y, Cp1Z, CpW, CpL, CpH, "black");
+	//Atmega	
+	makeCube (Cat328X, Cat328Y, Cat328Z, Cat328W, Cat328L, Cat328H, "gray");
+ 	//Power Components
+	makeCube (CpwrX, CpwrY, CpwrZ, CpwrW, CpwrL, CpwrH, "orange");
+	//FTDI Pins
+	makeCube (CftdiX, CftdiY, CftdiZ, CftdiW, CftdiL, CftdiH);
+	//rf12
+	makeCube (Crf12X, Crf12Y, Crf12Z, Crf12W, Crf12L, Crf12H, "lightgreen");
+
+	
+};
 
 };
+module makeCube(x,y,z,w,l,h,c){
+translate([x, y, z]) color(c) cube ([w, l, h]);
+
+}
+
 
 
 jeeNode();
