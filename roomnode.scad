@@ -63,28 +63,43 @@ jeeNodeH = 1.6;
 	rbHeaderW	= CpW;
 	rbHeaderL = CpL;
 	rbHeaderH = 2;
+	rbHeader1X = Cp4X;
+	rbHeader1Y = Cp4Y;
+	rbHeader1Z = jeeNodeH + CpH;
+	rbHeader2X = Cp4X+(jeeNodeW-CpW);
+	rbHeader2Y = Cp4Y;
+	rbHeader2Z = jeeNodeH + CpH;
+
 	
 	roomBoardW = 21.8;
 	roomBoardL = 21;
-	roomBoardH = 5;
+	roomBoardH = 1.6;
+	roomBoardX = Cp4X - .8;
+	roomBoardY = Cp4Y - 2.5;
+	roomBoardZ = jeeNodeH + CpH + rbHeaderH;
 	
-	//PIR
-		pirW = 32.2;
-		pirL = 24;
-		pirH = 1.3;
-		
-		pirHeaderW = 7.8;
-		pirHeaderL = 2.5;
-		pirHeaderH = 2.7;
-		
-		 
+//PIR
+	
+	pirHeaderW = 7.8;
+	pirHeaderL = 2.5;
+	pirHeaderH = 2.7;
+	pirHeaderX = Cp4X + (roomBoardW - pirHeaderW) / 2;
+	pirHeaderY = Cp4Y-pirHeaderL;
+	pirHeaderZ = roomBoardH+jeeNodeH+CpH+rbHeaderH;
 
+	pirW = 32.2;
+	pirL = 24;
+	pirH = 1.3;
+	pirX = Cp4X+(roomBoardW-pirW)/2;
+	pirY = Cp4Y-pirL;
+	pirZ = roomBoardH+jeeNodeH+CpH+rbHeaderH+pirHeaderH;
 
+//jeeCase Bottom
+	
+	jeeNodeGap = 3; //offset from jeeNode
+	caseHeight = 20; //height of case
+	wallThick = 4; //Wall thickness of case
 
-//roomBoard Orientation
-//C PIR2 towards antenna
-roomBoardOrientationX = Cp2X;
-roomBoardOrientationY = Cp2Y;
 
 
 
@@ -113,21 +128,57 @@ module jeeNode(){
 
 module roomBoard(){
 	union(){
-		makeCube(roomBoardOrientationX, roomBoardOrientationY, jeeNodeH + CpH, rbHeaderW, rbHeaderL, rbHeaderH, "orange");
-		makeCube(roomBoardOrientationX+(jeeNodeW-CpW), roomBoardOrientationY, jeeNodeH + CpH, rbHeaderW, rbHeaderL, rbHeaderH, "orange");
-		makeCube(roomBoardOrientationX-.8, roomBoardOrientationY - 2.5, jeeNodeH + CpH+rbHeaderH, roomBoardW, roomBoardL, roomBoardH, "orange");
-		makeCube((roomBoardW-pirHeaderW)/2,roomBoardL-pirHeaderL, roomBoardH+jeeNodeH+CpH+rbHeaderH, pirHeaderW, pirHeaderL, pirHeaderH, "pink");
-	
+		//room board 
+		//header 1
+		makeCube(rbHeader1X, rbHeader1Y, rbHeader1Z, rbHeaderW, rbHeaderL, rbHeaderH, "orange");
+		//header 2
+		makeCube(rbHeader2X,rbHeader2Y,rbHeader2Z , rbHeaderW, rbHeaderL, rbHeaderH, "orange");
+		//roomboard
+		makeCube(roomBoardX, roomBoardY, roomBoardZ, roomBoardW, roomBoardL, roomBoardH, "orange");
+
 	};
 };
 
+module pir(){
+		//pir Header
+		makeCube(pirHeaderX, pirHeaderY, pirHeaderZ, pirHeaderW, pirHeaderL, pirHeaderH, "pink");
+		//pir Board
+		makeCube(pirX, pirY, pirZ, pirW, pirL, pirH, "pink");
+
+};
 
 module makeCube(x,y,z,w,l,h,c){
+
 translate([x, y, z]) color(c) cube ([w, l, h]);
 
 };
 
+module jeeCaseBottom(){
 
+caseBottomX = -jeeNodeGap - wallThick;
+caseBottomY = -jeeNodeGap - wallThick;
+caseBottomZ = -1.5 - wallThick;  //1.5 is board offset for solder points
+caseBottomW = jeeNodeW + jeeNodeGap*2 + wallThick*2;
+caseBottomL = jeeNodeL + jeeNodeGap*2 + wallThick*2;
+caseBottomH = caseHeight;
+caseBottomNegX = -jeeNodeGap;
+caseBottomNegY = -jeeNodeGap;
+caseBottomNegZ = -1.5;
+caseBottomNegW = jeeNodeW + jeeNodeGap*2;
+caseBottomNegL = jeeNodeL + jeeNodeGap*2;
+caseBottomNegH = caseHeight;
+
+	difference(){
+		makeCube(caseBottomX, caseBottomY, caseBottomZ, caseBottomW, caseBottomL, caseBottomH, "red");
+		makeCube(caseBottomNegX, caseBottomNegY, caseBottomNegZ, caseBottomNegW, caseBottomNegL, caseBottomNegH, "red");
+	};
+
+};
 
 jeeNode();
+
 roomBoard();
+
+pir();
+
+jeeCaseBottom();
