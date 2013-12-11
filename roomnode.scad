@@ -100,7 +100,29 @@ jeeNodeH = 1.6;
 	wallThick = 4; //Wall thickness of case
 	bottomGap = 1.5; //space under board for solder points
 	caseHeight = pirZ+pirH+wallThick+bottomGap; //height of case
+	caseBottomX = -jeeNodeGap - wallThick;
+	caseBottomY = -jeeNodeGap - wallThick;
+	caseBottomZ = -bottomGap - wallThick;  //1.5 is board offset for solder points
+	caseBottomW = jeeNodeW + jeeNodeGap*2 + wallThick*2;
+	caseBottomL = jeeNodeL + jeeNodeGap*2 + wallThick*2;
+	caseBottomH = caseHeight;
+	caseBottomNegX = -jeeNodeGap;
+	caseBottomNegY = -jeeNodeGap;
+	caseBottomNegZ = -bottomGap;
+	caseBottomNegW = jeeNodeW + jeeNodeGap*2;
+	caseBottomNegL = jeeNodeL + jeeNodeGap*2;
+	caseBottomNegH = caseHeight;
+	ftdiOffset = 3; //amount of space around ftdi
+	pirOffset = 1.5;
 
+//jeeCaseTop
+	caseTopX = caseBottomX;
+	caseTopY = pirY+pirOffset+pirL;
+	caseTopZ = caseBottomZ+caseHeight;
+	caseTopW = caseBottomW;
+	caseTopL = jeeNodeL-pirY-pirOffset-pirL+jeeNodeGap+wallThick;
+	caseTopH = 5;
+	caseFitOffset = 1;
 
 // jeenode board
 module jeeNode(){
@@ -154,20 +176,7 @@ translate([x, y, z]) color(c) cube ([w, l, h]);
 
 module jeeCaseBottom(){
 
-	caseBottomX = -jeeNodeGap - wallThick;
-	caseBottomY = -jeeNodeGap - wallThick;
-	caseBottomZ = -bottomGap - wallThick;  //1.5 is board offset for solder points
-	caseBottomW = jeeNodeW + jeeNodeGap*2 + wallThick*2;
-	caseBottomL = jeeNodeL + jeeNodeGap*2 + wallThick*2;
-	caseBottomH = caseHeight;
-	caseBottomNegX = -jeeNodeGap;
-	caseBottomNegY = -jeeNodeGap;
-	caseBottomNegZ = -bottomGap;
-	caseBottomNegW = jeeNodeW + jeeNodeGap*2;
-	caseBottomNegL = jeeNodeL + jeeNodeGap*2;
-	caseBottomNegH = caseHeight;
-	ftdiOffset = 3; //amount of space around ftdi
-	pirOffset = 1.5;
+
 	difference(){
 		//full size cube
 		makeCube(caseBottomX, caseBottomY, caseBottomZ, caseBottomW, caseBottomL, caseBottomH, "red");
@@ -181,13 +190,10 @@ module jeeCaseBottom(){
 
 };
 
-modulejeeCaseTop(){
-	caseTopX = ;
-	caseTopY = ;
-	caseTopZ = ;
-	caseTopW = ;
-	caseTopL = ;
-	caseTopH = ;
+module jeeCaseTop(){
+
+	makeCube(caseTopX, caseTopY, caseTopZ, caseTopW, caseTopL, caseTopH, "cyan");
+	makeCube(caseTopX+wallThick+caseFitOffset/2, caseTopY+wallThick+caseFitOffset/2, caseTopZ-caseTopH, caseTopW-2*wallThick-caseFitOffset, caseTopL-2*wallThick-caseFitOffset, caseTopH, "cyan");
 };
 
 
@@ -198,3 +204,5 @@ roomBoard();
 pir();
 
 jeeCaseBottom();
+
+jeeCaseTop();
