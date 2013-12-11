@@ -165,6 +165,7 @@ module pir(){
 		makeCube(pirHeaderX, pirHeaderY, pirHeaderZ, pirHeaderW, pirHeaderL, pirHeaderH, "pink");
 		//pir Board
 		makeCube(pirX, pirY, pirZ, pirW, pirL, pirH, "pink");
+		translate([pirX+pirW/2,pirY+pirL/2, pirZ]) color("white") sphere(10);
 
 };
 
