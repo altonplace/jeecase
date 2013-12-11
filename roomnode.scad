@@ -97,10 +97,9 @@ jeeNodeH = 1.6;
 //jeeCase Bottom
 	
 	jeeNodeGap = 3; //offset from jeeNode
-	caseHeight = 20; //height of case
 	wallThick = 4; //Wall thickness of case
-
-
+	bottomGap = 1.5; //space under board for solder points
+	caseHeight = pirZ+pirH+wallThick+bottomGap; //height of case
 
 
 // jeenode board
@@ -157,20 +156,27 @@ module jeeCaseBottom(){
 
 caseBottomX = -jeeNodeGap - wallThick;
 caseBottomY = -jeeNodeGap - wallThick;
-caseBottomZ = -1.5 - wallThick;  //1.5 is board offset for solder points
+caseBottomZ = -bottomGap - wallThick;  //1.5 is board offset for solder points
 caseBottomW = jeeNodeW + jeeNodeGap*2 + wallThick*2;
 caseBottomL = jeeNodeL + jeeNodeGap*2 + wallThick*2;
 caseBottomH = caseHeight;
 caseBottomNegX = -jeeNodeGap;
 caseBottomNegY = -jeeNodeGap;
-caseBottomNegZ = -1.5;
+caseBottomNegZ = -bottomGap;
 caseBottomNegW = jeeNodeW + jeeNodeGap*2;
 caseBottomNegL = jeeNodeL + jeeNodeGap*2;
 caseBottomNegH = caseHeight;
-
+ftdiOffset = 3; //amount of space around ftdi
+pirOffset = 1.5;
 	difference(){
+		//full size cube
 		makeCube(caseBottomX, caseBottomY, caseBottomZ, caseBottomW, caseBottomL, caseBottomH, "red");
+		//inside cutout
 		makeCube(caseBottomNegX, caseBottomNegY, caseBottomNegZ, caseBottomNegW, caseBottomNegL, caseBottomNegH, "red");
+		//FTDI cutout
+		makeCube (CftdiX-ftdiOffset/2, CftdiY, CftdiZ-ftdiOffset/2, CftdiW+ftdiOffset, CftdiL, CftdiH+ftdiOffset);
+		//PIR cutout
+		makeCube(pirX-pirOffset/2, pirY-pirOffset/2, pirZ-5, pirW+pirOffset, pirL+pirOffset, pirH+caseHeight, "pink");
 	};
 
 };
