@@ -154,20 +154,20 @@ translate([x, y, z]) color(c) cube ([w, l, h]);
 
 module jeeCaseBottom(){
 
-caseBottomX = -jeeNodeGap - wallThick;
-caseBottomY = -jeeNodeGap - wallThick;
-caseBottomZ = -bottomGap - wallThick;  //1.5 is board offset for solder points
-caseBottomW = jeeNodeW + jeeNodeGap*2 + wallThick*2;
-caseBottomL = jeeNodeL + jeeNodeGap*2 + wallThick*2;
-caseBottomH = caseHeight;
-caseBottomNegX = -jeeNodeGap;
-caseBottomNegY = -jeeNodeGap;
-caseBottomNegZ = -bottomGap;
-caseBottomNegW = jeeNodeW + jeeNodeGap*2;
-caseBottomNegL = jeeNodeL + jeeNodeGap*2;
-caseBottomNegH = caseHeight;
-ftdiOffset = 3; //amount of space around ftdi
-pirOffset = 1.5;
+	caseBottomX = -jeeNodeGap - wallThick;
+	caseBottomY = -jeeNodeGap - wallThick;
+	caseBottomZ = -bottomGap - wallThick;  //1.5 is board offset for solder points
+	caseBottomW = jeeNodeW + jeeNodeGap*2 + wallThick*2;
+	caseBottomL = jeeNodeL + jeeNodeGap*2 + wallThick*2;
+	caseBottomH = caseHeight;
+	caseBottomNegX = -jeeNodeGap;
+	caseBottomNegY = -jeeNodeGap;
+	caseBottomNegZ = -bottomGap;
+	caseBottomNegW = jeeNodeW + jeeNodeGap*2;
+	caseBottomNegL = jeeNodeL + jeeNodeGap*2;
+	caseBottomNegH = caseHeight;
+	ftdiOffset = 3; //amount of space around ftdi
+	pirOffset = 1.5;
 	difference(){
 		//full size cube
 		makeCube(caseBottomX, caseBottomY, caseBottomZ, caseBottomW, caseBottomL, caseBottomH, "red");
@@ -180,6 +180,16 @@ pirOffset = 1.5;
 	};
 
 };
+
+modulejeeCaseTop(){
+	caseTopX = ;
+	caseTopY = ;
+	caseTopZ = ;
+	caseTopW = ;
+	caseTopL = ;
+	caseTopH = ;
+};
+
 
 jeeNode();
 
