@@ -96,8 +96,8 @@ jeeNodeH = 1.6;
 
 //jeeCase Bottom
 	
-	jeeNodeGap = 3; //offset from jeeNode
-	wallThick = 4; //Wall thickness of case
+	jeeNodeGap = 1; //offset from jeeNode
+	wallThick = 8; //Wall thickness of case
 	bottomGap = 1.5; //space under board for solder points
 	caseHeight = pirZ+pirH+wallThick+bottomGap; //height of case
 	caseBottomX = -jeeNodeGap - wallThick;
@@ -184,9 +184,9 @@ module jeeCaseBottom(){
 		//inside cutout
 		makeCube(caseBottomNegX, caseBottomNegY, caseBottomNegZ, caseBottomNegW, caseBottomNegL, caseBottomNegH, "red");
 		//FTDI cutout
-		makeCube (CftdiX-ftdiOffset/2, CftdiY, CftdiZ-ftdiOffset/2, CftdiW+ftdiOffset, CftdiL, CftdiH+ftdiOffset);
+		makeCube (CftdiX-ftdiOffset/2, CftdiY, CftdiZ-ftdiOffset/2, CftdiW+ftdiOffset, CftdiL+wallThick, CftdiH+ftdiOffset);
 		//PIR cutout
-		makeCube(pirX-pirOffset/2, pirY-pirOffset/2, pirZ-5, pirW+pirOffset, pirL+pirOffset, pirH+caseHeight, "pink");
+		makeCube(pirX-pirOffset/2, pirY-pirOffset/2, pirZ-14, pirW+pirOffset, pirL+pirOffset, pirH+caseHeight, "pink");
 	};
 
 };
@@ -198,12 +198,12 @@ module jeeCaseTop(){
 };
 
 
-jeeNode();
+//jeeNode();
 
-roomBoard();
+//roomBoard();
 
-pir();
+//pir();
 
 jeeCaseBottom();
 
-jeeCaseTop();
+//jeeCaseTop();
