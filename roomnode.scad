@@ -1,10 +1,37 @@
 //Created by Michael Anderson 12-9-2013
 
+
+// 
+sensorLength = 46;
+sensorWidth = 22;
+cylinderRadius = 8.5;
+cylinderLocation = 9.5;
+cutoutX = 11;
+cutoutY = sensorWidth;
+cutoutZ = 9;
+
+module tankCap(){
+difference()
+{
+render()
+union()
+{
+english_thread(2.25, 11.5, 1.25);
+// translate ([-35,-35,31.75]) cube ([70,70,10]);
+translate([0,0,31.25]) hexagon (70,10);
+}
+translate([(sensorLength/2)- cylinderLocation,0,0]) cylinder(h=100, r=cylinderRadius, center=true);
+ translate([(-sensorLength/2)+ cylinderLocation,0,0]) cylinder(h=100, r=cylinderRadius, center=true);
+translate([5,-6, 12]) rotate([0,0,180]) cube ([12,11,40]);
+translate([-sensorLength/2,-sensorWidth/2, 11]) cube ([sensorLength,sensorWidth,100]);
+translate([-cutoutX/2,-cutoutY/2,7]) cube ([cutoutX,cutoutY,11]);
+}
+
 //Roomnode case for Jeenode v6 and roomboard v2
 jeeNodeW = 21.3;
 jeeNodeL = 81;
 jeeNodeH = 1.6;
-
+};
 	//Connectors/Components
 	
 		//Headers
@@ -97,12 +124,13 @@ jeeNodeH = 1.6;
 //jeeCase Bottom
 	
 	jeeNodeGap = 1; //offset from jeeNode
-	wallThick = 8; //Wall thickness of case
+	wallThick = 4; //Wall thickness of case
+	bottomThick = 2; //Bottom Case thickness
 	bottomGap = 1.5; //space under board for solder points
-	caseHeight = pirZ+pirH+wallThick+bottomGap; //height of case
+	caseHeight = wallThick+bottomGap+pirZ; //pirZ+pirH+; //height of case
 	caseBottomX = -jeeNodeGap - wallThick;
 	caseBottomY = -jeeNodeGap - wallThick;
-	caseBottomZ = -bottomGap - wallThick;  //1.5 is board offset for solder points
+	caseBottomZ = -bottomGap - bottomThick;  //1.5 is board offset for solder points
 	caseBottomW = jeeNodeW + jeeNodeGap*2 + wallThick*2;
 	caseBottomL = jeeNodeL + jeeNodeGap*2 + wallThick*2;
 	caseBottomH = caseHeight;
@@ -186,7 +214,7 @@ module jeeCaseBottom(){
 		//FTDI cutout
 		makeCube (CftdiX-ftdiOffset/2, CftdiY, CftdiZ-ftdiOffset/2, CftdiW+ftdiOffset, CftdiL+wallThick, CftdiH+ftdiOffset);
 		//PIR cutout
-		makeCube(pirX-pirOffset/2, pirY-pirOffset/2, pirZ-14, pirW+pirOffset, pirL+pirOffset, pirH+caseHeight, "pink");
+		//makeCube(pirX-pirOffset/2, pirY-pirOffset/2, pirZ-14, pirW+pirOffset, pirL+pirOffset, pirH+caseHeight, "pink");
 	};
 
 };
@@ -207,3 +235,5 @@ module jeeCaseTop(){
 jeeCaseBottom();
 
 //jeeCaseTop();
+
+tankCap();
