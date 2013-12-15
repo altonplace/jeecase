@@ -1,5 +1,6 @@
 //Created by Michael Anderson 12-9-2013
 
+include <screwThreads.scad>;
 
 // 
 sensorLength = 46;
@@ -10,28 +11,20 @@ cutoutX = 11;
 cutoutY = sensorWidth;
 cutoutZ = 9;
 
-module tankCap(){
-difference()
-{
-render()
-union()
-{
-english_thread(2.25, 11.5, 1.25);
-// translate ([-35,-35,31.75]) cube ([70,70,10]);
-translate([0,0,31.25]) hexagon (70,10);
-}
-translate([(sensorLength/2)- cylinderLocation,0,0]) cylinder(h=100, r=cylinderRadius, center=true);
- translate([(-sensorLength/2)+ cylinderLocation,0,0]) cylinder(h=100, r=cylinderRadius, center=true);
-translate([5,-6, 12]) rotate([0,0,180]) cube ([12,11,40]);
-translate([-sensorLength/2,-sensorWidth/2, 11]) cube ([sensorLength,sensorWidth,100]);
-translate([-cutoutX/2,-cutoutY/2,7]) cube ([cutoutX,cutoutY,11]);
-}
+
+ThreadDiameter=2.25;
+ThreadPitch=11.25;
+ThreadLength=1.25;
+
+ThreadDiameterMM=ThreadDiameter*25.4;
+ThreadLengthMM=ThreadLengthMM*25.4;
+
 
 //Roomnode case for Jeenode v6 and roomboard v2
 jeeNodeW = 21.3;
 jeeNodeL = 81;
 jeeNodeH = 1.6;
-};
+
 	//Connectors/Components
 	
 		//Headers
@@ -152,6 +145,18 @@ jeeNodeH = 1.6;
 	caseTopH = 5;
 	caseFitOffset = 1;
 
+//batteryInsert
+	batteryW = 54;
+	batteryL = 23.5;
+	batteryH = 15;
+	batteryWallThick = 2;
+	
+//battery2Insert
+	batteryW2 = 53.6;
+	batteryL2 = 23.5;
+	batteryH2 = 15;
+	
+
 // jeenode board
 module jeeNode(){
 
@@ -225,6 +230,46 @@ module jeeCaseTop(){
 	makeCube(caseTopX+wallThick+caseFitOffset/2, caseTopY+wallThick+caseFitOffset/2, caseTopZ-caseTopH, caseTopW-2*wallThick-caseFitOffset, caseTopL-2*wallThick-caseFitOffset, caseTopH, "cyan");
 };
 
+module batteryInsert() {
+	 
+	difference(){
+	makeCube(0,0,0,batteryW+batteryWallThick, batteryL+batteryWallThick, batteryH+batteryWallThick,"green");
+	makeCube(batteryWallThick/2,batteryWallThick/2,batteryWallThick/2,batteryW,batteryL,batteryH+batteryWallThick);
+	};
+
+};
+
+module batteryInsert2() {
+	 
+
+	makeCube(0,0,0,batteryW2, batteryL2, batteryH2,"green");
+	
+
+};
+
+
+module tankCap(thread,pitch,length){ //english units
+difference()
+{
+render()
+union()
+{
+english_thread(thread,pitch,length);
+
+}
+translate([(sensorLength/2)- cylinderLocation,0,0]) cylinder(h=100, r=cylinderRadius, center=true);
+ translate([(-sensorLength/2)+ cylinderLocation,0,0]) cylinder(h=100, r=cylinderRadius, center=true);
+translate([5,-6, 12]) rotate([0,0,180]) cube ([12,11,40]);
+translate([-sensorLength/2,-sensorWidth/2, 11]) cube ([sensorLength,sensorWidth,100]);
+translate([-cutoutX/2,-cutoutY/2,7]) cube ([cutoutX,cutoutY,11]);
+}
+};
+
+module topHolder(BottomDiameter,TopDiameter,Length){
+	cylinder(Length,BottomDiameter/2,TopDiameter/2,0);
+	
+};
+
 
 //jeeNode();
 
@@ -232,8 +277,12 @@ module jeeCaseTop(){
 
 //pir();
 
-jeeCaseBottom();
+//translate([0,0,36.25+bottomThick+bottomGap]) jeeCaseBottom();
 
 //jeeCaseTop();
+translate([0,0,31.25]) hexagon (70,20);
 
-tankCap();
+tankCap(ThreadDiameter, ThreadPitch, ThreadLength);
+translate([-batteryW/2,-batteryL/2,16]) batteryInsert2();
+
+translate([0,0,0]) rotate([0,0,30]) topHolder(ThreadDiameterMM,ThreadDiameterMM+10,100);
